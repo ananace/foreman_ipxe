@@ -1,38 +1,38 @@
-# ForemanIpxe
+# foreman_ipxe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/foreman_ipxe`. To experiment with that code, run `bin/console` for an interactive prompt.
+Adds in PXE loaders for chainloaded iPXE (`undionly.kpxe`, `ipxe.efi`)
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Follow the Foreman manual for [advanced installation from gems](https://theforeman.org/plugins/#2.3AdvancedInstallationfromGems)
 
-```ruby
-gem 'foreman_ipxe'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install foreman_ipxe
 
 ## Usage
 
-TODO: Write usage instructions here
+To use the chainloading, you need to generate the iPXE executables first.
 
-## Development
+```sh
+git clone git://git.ipxe.org/ipxe.git
+cd ipxe/src
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+cat <<EOF > default.ipxe
+#!ipxe
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+dhcp
+chain https://foreman.example.com/unattended/iPXE
+EOF
+
+make bin/undionly.kpxe EMBED=default.ipxe
+make bin-x86_64-efi/ipxe.efi EMBED=default.ipxe
+```
+
+The generated executables should then be uploaded to the root of your TFTP server (or depending on your root path DHCP option).
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/foreman_ipxe.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ace13/foreman_ipxe.
 
 
 ## License
