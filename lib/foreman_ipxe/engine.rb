@@ -11,6 +11,8 @@ module ForemanIpxe
     config.to_prepare do
       begin
         ::Operatingsystem.send :include, ForemanIpxe::OperatingsystemExtensions
+        ::UnattendedController.send :prepend, ForemanIpxe::UnattendedControllerExtensions
+        ::TemplateKind.send :prepend, ForemanIpxe::TemplateKindExtensions
       rescue => e
         Rails.logger.warn "ForemanIpxe: skipping engine hook(#{e})"
       end
