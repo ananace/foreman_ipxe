@@ -22,7 +22,7 @@ You'll need to create a global default template for iPXE to support this feature
 <%#
 kind: iPXE
 model: ProvisioningTemplate
-name: iPXE Global Default
+name: iPXE global default
 snippet: false
 -%>
 #!ipxe
