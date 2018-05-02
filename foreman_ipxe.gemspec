@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Adds chainloaded iPXE loaders'
   spec.description   = 'Allows provisioning iPXE with chainloaded iPXE binaries'
-  spec.homepage      = 'https://github.com/ace13/foreman_ipxe'
+  spec.homepage      = 'https://github.com/ananace/foreman_ipxe'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

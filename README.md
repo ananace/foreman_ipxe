@@ -42,7 +42,7 @@ You want to add a rule that passes the bootfile "https://foreman.example.com/una
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ace13/foreman_ipxe.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ananace/foreman_ipxe
 
 
 ## License
