@@ -9,6 +9,9 @@ This is useful for when you want to selectively chainload specific hosts into iP
 
 Follow the Foreman manual for [advanced installation from gems](https://theforeman.org/plugins/#2.3AdvancedInstallationfromGems)
 
+For full usage of this plugin, you might want to create at least a global default iPXE boot template.
+You can also specify a local boot template if need be, though in the case one is missing then a default template will be rendered that just closes iPXE and lets BIOS/UEFI continue the boot with the next device.
+
 
 ## Usage
 
@@ -67,6 +70,8 @@ initrd ${next-server}/boot/fdi-image/initrd0.img
 boot || goto failed
 goto start
 ```
+
+If you need to set a host-specific iPXE template, you can set the host parameter `iPXE_Template` to the name of the template that should be rendered for it.
 
 ### Chainloading
 

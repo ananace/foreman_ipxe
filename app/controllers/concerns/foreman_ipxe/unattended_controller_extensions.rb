@@ -1,5 +1,7 @@
 module ForemanIpxe
   module UnattendedControllerExtensions
+    IPXE_TEMPLATE_PARAMETER = 'iPXE_Template'.freeze
+
     def self.prepended(base)
       base.skip_before_action :get_host_details, if: proc { %w[iPXE gPXE].include? params[:kind] }
       base.skip_before_action :allowed_to_install?, if: proc { %w[iPXE gPXE].include? params[:kind] }
@@ -21,8 +23,9 @@ module ForemanIpxe
           config = ProvisioningTemplate.find_by_name name
           config ||= ProvisioningTemplate.new name: 'iPXE default local boot fallback',
                                               template: "#!ipxe\n# iPXE default local boot fallback\n\nexit\n"
-
-          return unless verify_found_host(@host)
+        elsif @host && @host.parameters.where(name: IPXE_TEMPLATE_PARAMETER).any?
+          name = @host.parameters.find_by name: IPXE_TEMPLATE_PARAMETER
+          config = ProvisioningTemplate.find_by name: name
         end
 
         return safe_render config if config
