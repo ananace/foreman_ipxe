@@ -8,27 +8,34 @@ module ForemanIpxe
 
     module Overrides
       def render_template(type)
-        return super(type) unless %w[iPXE gPXE].include?(type)
+        return super(type) unless ipxe_request?(type)
 
         @host ||= find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
         if !@host
           name = ProvisioningTemplate.global_template_name_for('iPXE', self)
-          config = ProvisioningTemplate.find_by name: name
+          template = ProvisioningTemplate.find_by(name: name)
 
-          return render(plain: "#!ipxe\n\necho " + (_("Global iPXE template '%s' not found") % name) + "\nshell\n", status: :not_found, content_type: 'text/plain') unless config
+          unless template
+            render_ipxe_message(message: _("Global iPXE template '%s' not found") % name)
+            return
+          end
         elsif @host && !@host.build?
           return unless verify_found_host(@host)
 
           name = Setting[:local_boot_iPXE] || ProvisioningTemplate.local_boot_name(:iPXE)
-          config = ProvisioningTemplate.find_by name: name
-          config ||= ProvisioningTemplate.new name: 'iPXE default local boot fallback',
-                                              template: "#!ipxe\n# iPXE default local boot fallback\n\nexit\n"
+          template = ProvisioningTemplate.find_by(name: name)
+          template ||= ProvisioningTemplate.new(
+            name: 'iPXE default local boot fallback',
+            template: ForemanIpxe::IpxeStubRenderer.new(
+              message: 'iPXE default local boot fallback'
+            ).to_s
+          )
         elsif @host&.parameters&.where(name: IPXE_TEMPLATE_PARAMETER)&.any?
-          name = @host.parameters.find_by name: IPXE_TEMPLATE_PARAMETER
-          config = ProvisioningTemplate.find_by name: name
+          name = @host.parameters.find_by(name: IPXE_TEMPLATE_PARAMETER)
+          template = ProvisioningTemplate.find_by(name: name)
         end
 
-        return safe_render config if config
+        return safe_render(template) if template
 
         return unless verify_found_host(@host)
         return unless allowed_to_install?
@@ -41,9 +48,19 @@ module ForemanIpxe
     included do
       prepend Overrides
 
-      skip_before_action :get_host_details, if: proc { %w[iPXE gPXE].include?(params[:kind]) }
-      skip_before_action :allowed_to_install?, if: proc { %w[iPXE gPXE].include?(params[:kind]) }
-      skip_before_action :load_template_vars, if: proc { %w[iPXE gPXE].include?(params[:kind]) }
+      skip_before_action :get_host_details, if: -> { ipxe_request?(params[:kind]) }
+      skip_before_action :allowed_to_install?, if: -> { ipxe_request?(params[:kind]) }
+      skip_before_action :load_template_vars, if: -> { ipxe_request?(params[:kind]) }
+    end
+
+    private
+
+    def ipxe_request?(type)
+      %w[iPXE gPXE].include?(type)
+    end
+
+    def render_ipxe_message(message: _('An error occured.'), status: :not_found)
+      render(plain: ForemanIpxe::IpxeMessageRenderer.new(message: message).to_s, status: status, content_type: 'text/plain')
     end
   end
 end
