@@ -4,6 +4,10 @@ module ForemanIpxe
   class Engine < ::Rails::Engine
     engine_name 'foreman_ipxe'
 
+    config.autoload_paths += Dir["#{config.root}/app/controllers/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/services"]
+
     initializer 'foreman_ipxe.load_default_settings', before: :load_config_initializers do
       require_dependency File.expand_path('../../app/models/setting/ipxe.rb', __dir__) if begin
                                                                                              Setting.table_exists?
