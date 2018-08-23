@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Setting
+class Setting
   class Ipxe < ::Setting
     def self.load_defaults
       return unless ActiveRecord::Base.connection.table_exists?('settings')
