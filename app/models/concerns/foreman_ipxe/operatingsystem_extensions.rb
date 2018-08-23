@@ -5,8 +5,8 @@ module ForemanIpxe
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def all_loaders_map(arch = 'x64')
-        super(arch)
+      def all_loaders_map(*args)
+        super
           .merge('iPXE Chain BIOS' => 'undionly.kpxe', 'iPXE Chain UEFI' => 'ipxe.efi', 'iPXE' => nil)
           .freeze
       end
