@@ -1,9 +1,7 @@
----
 AllCops:
   TargetRubyVersion: 2.3
   TargetRailsVersion: 5.1
   Exclude:
-    - '*.spec'
     - 'Rakefile'
 
 Rails:
@@ -13,22 +11,25 @@ Rails:
 Style/Documentation:
   Enabled: false
 
-Metrics/MethodLength:
-  Max: 40
-
 Metrics/LineLength:
-  Max: 190
+  Max: 250
 
-Rails/SkipsModelValidations:
+Style/WordArray:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/RegexpLiteral:
   Enabled: false
 
 Lint/BooleanSymbol:
   Enabled: false
 
-Style/MultilineBlockChain:
+Metrics/AbcSize:
   Enabled: false
 
-Metrics/AbcSize:
+Metrics/MethodLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
@@ -40,16 +41,15 @@ Metrics/PerceivedComplexity:
 Style/FormatStringToken:
   Enabled: false
 
-Naming/AccessorMethodName:
-  Enabled: false
-
 Performance/FixedSize:
   Exclude:
     - 'test/**/*'
 
 Metrics/BlockLength:
-  Max: 35
+  ExcludedMethods: ['describe', 'context']
   Exclude:
+    - 'config/routes.rb'
+    - 'lib/foreman_ipxe/engine.rb'
     - 'test/**/*'
 
 Metrics/ClassLength:
@@ -57,10 +57,6 @@ Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
 
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
-
 Style/ClassAndModuleChildren:
   Exclude:
     - 'test/**/*'
-    - 'app/controllers/concerns/foreman/**/*'

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module ForemanIpxe
   module UnattendedControllerExtensions
     extend ActiveSupport::Concern
 
-    IPXE_TEMPLATE_PARAMETER = 'iPXE_Template'.freeze
+    IPXE_TEMPLATE_PARAMETER = 'iPXE_Template'
 
     module Overrides
       def render_template(type)
@@ -20,8 +22,8 @@ module ForemanIpxe
           name = Setting[:local_boot_iPXE] || ProvisioningTemplate.local_boot_name(:iPXE)
           config = ProvisioningTemplate.find_by name: name
           config ||= ProvisioningTemplate.new name: 'iPXE default local boot fallback',
-            template: "#!ipxe\n# iPXE default local boot fallback\n\nexit\n"
-        elsif @host && @host.parameters.where(name: IPXE_TEMPLATE_PARAMETER).any?
+                                              template: "#!ipxe\n# iPXE default local boot fallback\n\nexit\n"
+        elsif @host&.parameters&.where(name: IPXE_TEMPLATE_PARAMETER)&.any?
           name = @host.parameters.find_by name: IPXE_TEMPLATE_PARAMETER
           config = ProvisioningTemplate.find_by name: name
         end

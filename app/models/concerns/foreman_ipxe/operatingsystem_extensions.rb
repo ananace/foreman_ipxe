@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ForemanIpxe
   module OperatingsystemExtensions
     extend ActiveSupport::Concern
@@ -10,7 +12,7 @@ module ForemanIpxe
       end
 
       def boot_filename(host = nil)
-        return host.foreman_url('iPXE') if (host.pxe_loader == 'iPXE')
+        return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE'
         super(host)
       end
     end
