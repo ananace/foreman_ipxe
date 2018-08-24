@@ -12,6 +12,12 @@ Follow the Foreman manual for [advanced installation from gems](https://theforem
 For full usage of this plugin, you might want to create at least a global default iPXE boot template.
 You can also specify a local boot template if need be, though in the case one is missing then a default template will be rendered that just closes iPXE and lets BIOS/UEFI continue the boot with the next device.
 
+## Compatibility
+
+| Foreman Version | Plugin Version |
+| --------------- | --------------:|
+| >= 1.14         | ~> 0.1         |
+| >= 1.18         | ~> 0.2         |
 
 ## Usage
 
