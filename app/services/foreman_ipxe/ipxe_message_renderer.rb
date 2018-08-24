@@ -4,7 +4,7 @@ module ForemanIpxe
   class IpxeMessageRenderer
     attr_accessor :message
 
-    def initialize(message:)
+    def initialize(message: nil)
       @message = message
     end
 
