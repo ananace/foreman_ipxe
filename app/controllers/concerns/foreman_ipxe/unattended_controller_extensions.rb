@@ -14,6 +14,7 @@ module ForemanIpxe
 
         ipxe_template_kind = TemplateKind.find_by(name: 'iPXE')
 
+        # rubocop:disable Style/SafeNavigation
         if !@host
           name = ProvisioningTemplate.global_template_name_for('iPXE', self)
           template = ProvisioningTemplate.find_global_default_template(name, 'iPXE')
@@ -42,6 +43,7 @@ module ForemanIpxe
             return
           end
         end
+        # rubocop:enable Style/SafeNavigation
 
         return safe_render(template) if template
 

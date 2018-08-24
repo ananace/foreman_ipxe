@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_plugin_helper'
 
 class UnattendedControllerTest < ActionController::TestCase
@@ -13,7 +15,7 @@ class UnattendedControllerTest < ActionController::TestCase
       ignore_types: ['ProvisioningTemplate']
     )
   end
-  let(:ipxe_kind) { TemplateKind.find_by(name: 'iPXE')  }
+  let(:ipxe_kind) { TemplateKind.find_by(name: 'iPXE') }
   let(:ipxe_template) do
     FactoryBot.create(
       :provisioning_template,
