@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 module ForemanIpxe
   module OperatingsystemExtensions
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def all_loaders_map(arch = 'x64')
-        super(arch)
+      def all_loaders_map(*args)
+        super
           .merge('iPXE Chain BIOS' => 'undionly.kpxe', 'iPXE Chain UEFI' => 'ipxe.efi', 'iPXE' => nil)
           .freeze
       end
 
       def boot_filename(host = nil)
-        return host.foreman_url('iPXE') if (host.pxe_loader == 'iPXE')
+        return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE'
         super(host)
       end
     end

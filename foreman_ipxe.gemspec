@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "#{File.expand_path('lib', __dir__)}/foreman_ipxe/version"
 
 Gem::Specification.new do |spec|
@@ -16,7 +18,6 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'minitest'
-  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rdoc'
+  spec.add_development_dependency 'rubocop', '0.52.1'
 end
