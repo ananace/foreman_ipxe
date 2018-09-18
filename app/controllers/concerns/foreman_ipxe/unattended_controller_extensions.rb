@@ -53,6 +53,12 @@ module ForemanIpxe
 
         super
       end
+
+      def verify_found_host
+        return false if host_not_found?(@host) || host_os_is_missing?(@host) || host_os_family_is_missing?(@host)
+        logger.debug "Found #{@host}"
+        true
+      end
     end
 
     included do
