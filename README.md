@@ -18,6 +18,7 @@ You can also specify a local boot template if need be, though in the case one is
 | --------------- | --------------:|
 | >= 1.14         | ~> 0.1         |
 | >= 1.18         | ~> 0.2         |
+| >= 1.20         | *merged in Foreman* |
 
 ## Usage
 
